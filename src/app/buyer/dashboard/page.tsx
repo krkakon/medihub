@@ -7,7 +7,7 @@ export default function BuyerDashboard() {
     <div id="buyerhome" className="view show">
       <div className="pg-head">
         <div className="inner">
-          <Link href="/" className="pg-logo">
+          <a href="/" className="pg-logo">
             <svg viewBox="0 0 48 48" fill="none">
               <rect width="48" height="48" rx="13" fill="#0D6E6E" />
               <path
@@ -26,10 +26,10 @@ export default function BuyerDashboard() {
             <span>
               MediHub <b>BD</b>
             </span>
-          </Link>
-          <Link href="/" className="pg-back">
+          </a>
+          <a href="/" className="pg-back">
             <i className="fa-solid fa-arrow-left"></i> Back to marketplace
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -58,9 +58,9 @@ export default function BuyerDashboard() {
         </div>
 
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "24px" }}>
-          <Link href="/" className="btn btn-amber">
+          <a href="/" className="btn btn-amber">
             <i className="fa-solid fa-magnifying-glass"></i> Browse products
-          </Link>
+          </a>
           <Link href="/#tender" className="btn btn-outline">
             <i className="fa-regular fa-file-lines"></i> Request a quotation
           </Link>

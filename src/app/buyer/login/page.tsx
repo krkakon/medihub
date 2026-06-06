@@ -21,7 +21,7 @@ export default function BuyerLogin() {
     <div id="buyerlogin" className="view show">
       <div className="pg-head">
         <div className="inner">
-          <Link href="/" className="pg-logo">
+          <a href="/" className="pg-logo">
             <svg viewBox="0 0 48 48" fill="none">
               <rect width="48" height="48" rx="13" fill="#0D6E6E" />
               <path
@@ -40,10 +40,10 @@ export default function BuyerLogin() {
             <span>
               MediHub <b>BD</b>
             </span>
-          </Link>
-          <Link href="/" className="pg-back">
+          </a>
+          <a href="/" className="pg-back">
             <i className="fa-solid fa-arrow-left"></i> Back to marketplace
-          </Link>
+          </a>
         </div>
       </div>
 

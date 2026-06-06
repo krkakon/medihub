@@ -82,6 +82,17 @@ export default function Home() {
   const [activeTender, setActiveTender] = useState<{ inst: string; prod: string; qty: string } | null>(null);
   const [bidSubmitted, setBidSubmitted] = useState(false);
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowWizard(false);
+    setShowTenderList(false);
+    setShowTenderModal(false);
+    setShowBidModal(false);
+    setShowCompareModal(false);
+    setShowChatPop(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Auto-open Support Chat
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -200,7 +211,12 @@ export default function Home() {
       {/* ============================ NAVBAR ============================ */}
       <nav className="nav">
         <div className="wrap nav-inner">
-          <Link href="/" className="logo" aria-label="MediHub Bangladesh">
+          <a
+            href="/"
+            className="logo"
+            aria-label="MediHub Bangladesh"
+            onClick={handleLogoClick}
+          >
             <span className="logo-mark" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none">
                 <path
@@ -223,7 +239,7 @@ export default function Home() {
               </span>
               <span className="b2">Scientific Marketplace</span>
             </span>
-          </Link>
+          </a>
 
           <div className="nav-links">
             <a href="#products">{t("nav.products")}</a>
@@ -1616,7 +1632,7 @@ export default function Home() {
         <div className="wrap">
           <div className="foot-grid">
             <div className="foot-brand">
-              <Link href="/" className="logo">
+              <a href="/" className="logo" onClick={handleLogoClick}>
                 <span className="logo-mark">
                   <svg viewBox="0 0 24 24" fill="none">
                     <path
@@ -1637,7 +1653,7 @@ export default function Home() {
                   <span className="b1">MediHub BD</span>
                   <span className="b2">Scientific Marketplace</span>
                 </span>
-              </Link>
+              </a>
               <p>
                 Bangladesh's regulated marketplace for scientific procurement —
                 connecting hospitals, universities, diagnostic labs, and research
