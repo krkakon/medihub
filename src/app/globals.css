@@ -1014,7 +1014,7 @@ footer{background:#06292B; color:#cfe2e3; padding:64px 0 24px; font-size:14px}
 .view{display:none;}
 .view.show{display:block; animation:mhfade .35s ease both;}
 @keyframes mhfade{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
-.demo-banner{background:var(--amber-soft,#FEF3C7); color:#92400E; text-align:center; font-size:12.5px; font-weight:700; padding:7px; font-family:'Manrope',sans-serif;}
+
 .pg-head{position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line,#E3EAEA);}
 .pg-head .inner{max-width:1200px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; gap:16px;}
 .pg-logo{display:flex; align-items:center; gap:10px; cursor:pointer; font-family:'Space Grotesk'; font-weight:700; font-size:19px; letter-spacing:-.03em; color:var(--ink,#0E1F1F);}

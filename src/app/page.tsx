@@ -178,11 +178,6 @@ export default function Home() {
 
   return (
     <>
-      {/* ============================ DEMO BANNER ============================ */}
-      <div className="demo-banner">
-        PROTOTYPE / DEMO &mdash; sample data only, no real login or database.{" "}
-        <span className="bn">(নমুনা ডেমো)</span>
-      </div>
 
       {/* ============================ UTILITY BAR ============================ */}
       <div className="utility">
