@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="8" fill="#0D6E6E" />
+  <g transform="translate(4, 4)">
+    <!-- DNA double helix -->
+    <path d="M5 3c0 4 14 4 14 0M5 21c0-4 14-4 14 0M6 7c0 3 12 3 12 0M6 17c0-3 12-3 12 0" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" fill="none" />
+    <!-- Medical cross -->
+    <path d="M10 9.5h4M10 14.5h4M12 8v8" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" fill="none" />
+  </g>
+</svg>
