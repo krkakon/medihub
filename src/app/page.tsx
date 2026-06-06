@@ -309,6 +309,24 @@ export default function Home() {
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>
             About
           </a>
+          <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "10px" }}>
+            <Link
+              href="/buyer/login"
+              className="btn btn-outline"
+              style={{ justifyContent: "center" }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <i className="fa-regular fa-user"></i> {t("cta.buyer")}
+            </Link>
+            <Link
+              href="/seller/login"
+              className="btn btn-amber"
+              style={{ justifyContent: "center" }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <i className="fa-solid fa-store"></i> {t("cta.seller")}
+            </Link>
+          </div>
         </div>
       )}
 

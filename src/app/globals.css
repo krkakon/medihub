@@ -374,6 +374,7 @@ img{max-width:100%; display:block}
   border-radius:14px;
   box-shadow:var(--shadow);
   padding:6px;
+  width:100%;
   max-width:680px;
 }
 .search-cat{
@@ -1061,9 +1062,32 @@ footer{background:#06292B; color:#cfe2e3; padding:64px 0 24px; font-size:14px}
 @media(max-width:880px){ .mh-stats{grid-template-columns:1fr 1fr;} .mh-two{grid-template-columns:1fr;} }
 
 /* ============ RESPONSIVE IMPROVEMENTS ============ */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .modal-body {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1100px) {
+  /* Ensure mobile menu has correct bounding box */
+  .mobile-menu {
+    top: 74px;
+    height: calc(100vh - 74px);
+    position: fixed;
+    inset: 74px 0 0 0;
+    z-index: 99;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Hide secondary top utility bar to declutter mobile */
+  .utility {
+    display: none;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1093,6 +1117,18 @@ footer{background:#06292B; color:#cfe2e3; padding:64px 0 24px; font-size:14px}
   }
 }
 
+@media (max-width: 560px) {
+  /* Hide desktop buttons from the top navbar to give space for logo */
+  .nav-cta .btn-outline, 
+  .nav-cta .btn-amber {
+    display: none;
+  }
+  /* Show only language toggle and menu toggle in top bar */
+  .nav-cta {
+    gap: 12px;
+  }
+}
+
 @media (max-width: 480px) {
   /* Stats grid stack on tiny screens */
   .mh-stats {
@@ -1117,6 +1153,44 @@ footer{background:#06292B; color:#cfe2e3; padding:64px 0 24px; font-size:14px}
   .login-card {
     padding: 24px 16px;
     border-radius: 14px;
+  }
+
+  /* Navbar brand typography adjustment */
+  .logo-text .b2 {
+    display: none;
+  }
+  .logo-text .b1 {
+    font-size: 16px;
+  }
+  .logo-mark svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Tender card header stack to prevent tag collision */
+  .rfq-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .rfq-head .inst-tag {
+    align-self: flex-start;
+  }
+
+  /* Calculator grid fields and pricing bar collapse */
+  .calc-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .calc-foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    text-align: center;
+  }
+  .calc-foot .btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
