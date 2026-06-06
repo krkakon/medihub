@@ -157,68 +157,70 @@ export default function SellerDashboard() {
               &mdash; edit price, bulk, delivery &amp; stock inline
             </span>
           </h3>
-          <table className="mh-table" id="mhSellerProducts">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Price (৳)</th>
-                <th>Bulk (10+)</th>
-                <th>Delivery</th>
-                <th>Stock</th>
-                <th>Sold</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((p, i) => (
-                <tr key={i}>
-                  <td>
-                    <b>{p.name}</b>
-                  </td>
-                  <td>
-                    <input
-                      className="mh-edit"
-                      type="number"
-                      value={p.price}
-                      onChange={(e) =>
-                        handleProductChange(i, "price", parseFloat(e.target.value) || 0)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      className="mh-edit"
-                      type="number"
-                      value={p.bulk}
-                      onChange={(e) =>
-                        handleProductChange(i, "bulk", parseFloat(e.target.value) || 0)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      className="mh-edit"
-                      value={p.delivery}
-                      onChange={(e) =>
-                        handleProductChange(i, "delivery", e.target.value)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      className="mh-edit"
-                      type="number"
-                      value={p.stock}
-                      style={{ maxWidth: "80px" }}
-                      onChange={(e) =>
-                        handleProductChange(i, "stock", parseInt(e.target.value) || 0)
-                      }
-                    />
-                  </td>
-                  <td>{p.sold}</td>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+            <table className="mh-table" id="mhSellerProducts">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price (৳)</th>
+                  <th>Bulk (10+)</th>
+                  <th>Delivery</th>
+                  <th>Stock</th>
+                  <th>Sold</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {products.map((p, i) => (
+                  <tr key={i}>
+                    <td>
+                      <b>{p.name}</b>
+                    </td>
+                    <td>
+                      <input
+                        className="mh-edit"
+                        type="number"
+                        value={p.price}
+                        onChange={(e) =>
+                          handleProductChange(i, "price", parseFloat(e.target.value) || 0)
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="mh-edit"
+                        type="number"
+                        value={p.bulk}
+                        onChange={(e) =>
+                          handleProductChange(i, "bulk", parseFloat(e.target.value) || 0)
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="mh-edit"
+                        value={p.delivery}
+                        onChange={(e) =>
+                          handleProductChange(i, "delivery", e.target.value)
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="mh-edit"
+                        type="number"
+                        value={p.stock}
+                        style={{ maxWidth: "80px" }}
+                        onChange={(e) =>
+                          handleProductChange(i, "stock", parseInt(e.target.value) || 0)
+                        }
+                      />
+                    </td>
+                    <td>{p.sold}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="mh-panel">

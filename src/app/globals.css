@@ -1059,3 +1059,81 @@ footer{background:#06292B; color:#cfe2e3; padding:64px 0 24px; font-size:14px}
 .mh-modal h3{font-family:'Space Grotesk'; font-size:21px; margin-bottom:4px; color:var(--ink);}
 .bn{font-family:'Noto Sans Bengali','Manrope',sans-serif;}
 @media(max-width:880px){ .mh-stats{grid-template-columns:1fr 1fr;} .mh-two{grid-template-columns:1fr;} }
+
+/* ============ RESPONSIVE IMPROVEMENTS ============ */
+.modal-body {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 600px) {
+  /* Compare bar responsive layout */
+  .compare-bar {
+    padding: 8px 0;
+  }
+  .compare-bar .wrap {
+    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cmp-items {
+    justify-content: center;
+  }
+  .cmp-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Spacing and margins on subpages */
+  .pg {
+    padding: 20px 16px 40px;
+  }
+  .pg-head .inner {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stats grid stack on tiny screens */
+  .mh-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  /* Modal responsive padding */
+  .mh-modal {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+  
+  .modal-head {
+    padding: 16px;
+  }
+  
+  /* Login card responsiveness */
+  .login-wrap {
+    padding: 16px 12px;
+  }
+  .login-card {
+    padding: 24px 16px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Prevent support chat bubble and popover overflow */
+  .chat-wrap {
+    right: 12px;
+    bottom: 12px;
+  }
+  .chat-pop {
+    right: 0;
+    width: calc(100vw - 24px);
+    max-width: 320px;
+  }
+  
+  /* Adjust category grids and doc list grids */
+  .docs-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
