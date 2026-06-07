@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface ProductItem {
   name: string;
@@ -22,6 +24,15 @@ interface RequestItem {
 }
 
 export default function SellerDashboard() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/seller/login");
+    }
+  }, [status, router]);
+
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "HBV DNA RT-PCR Kit (50T)", price: 18500, bulk: 16800, delivery: "3-5 days", stock: 42, sold: 212 },
     { name: "Bio-Rad CFX96 Touch System", price: 2350000, bulk: 2290000, delivery: "5-7 wks", stock: 3, sold: 6 },
@@ -79,6 +90,21 @@ export default function SellerDashboard() {
 
   const openRequestsCount = requests.filter((r) => !r.done).length;
 
+  if (status === "loading") {
+    return (
+      <div style={{ display: "grid", placeItems: "center", minHeight: "100vh", fontFamily: "var(--font-manrope)", background: "var(--bg)" }}>
+        <div style={{ textAlign: "center" }}>
+          <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: "32px", color: "var(--teal)", marginBottom: "12px" }}></i>
+          <p className="mh-muted" style={{ fontSize: "14px" }}>Loading your seller dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!session) return null;
+
+  const user = session.user as any;
+
   return (
     <div id="sellerhome" className="view show">
       <div className="pg-head">
@@ -103,9 +129,18 @@ export default function SellerDashboard() {
               MediHub <b>BD</b>
             </span>
           </a>
-          <a href="/" className="pg-back">
-            <i className="fa-solid fa-arrow-left"></i> Back to marketplace
-          </a>
+          <div style={{ marginLeft: "auto", display: "flex", gap: "20px", alignItems: "center" }}>
+            <a href="/" className="pg-back">
+              <i className="fa-solid fa-arrow-left"></i> Back to marketplace
+            </a>
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="pg-back"
+              style={{ border: "none", background: "none", fontFamily: "inherit", cursor: "pointer" }}
+            >
+              <i className="fa-solid fa-right-from-bracket"></i> Sign out
+            </button>
+          </div>
         </div>
       </div>
 
@@ -120,8 +155,9 @@ export default function SellerDashboard() {
           }}
         >
           <div>
-            <span className="mh-pill amber">Seller Portal &middot; Genetica Ltd.</span>
-            <h1 style={{ marginTop: "10px" }}>Dashboard</h1>
+            <span className="mh-pill amber">Seller Portal &middot; {user.institutionName || "Genetica Ltd."}</span>
+            <h1 style={{ marginTop: "10px" }}>Welcome back, {user.name?.split(" ")[0] || "Seller"}</h1>
+            <p className="mh-muted">{user.designation || "Sales Director"} &middot; {user.institutionName || "Genetica Ltd."}</p>
           </div>
           <button className="btn btn-amber" onClick={() => setShowAddModal(true)}>
             <i className="fa-solid fa-plus"></i> Add product

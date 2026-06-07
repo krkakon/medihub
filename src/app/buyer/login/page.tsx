@@ -3,18 +3,37 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function BuyerLogin() {
   const router = useRouter();
-  const [institution, setInstitution] = useState("ideSHi");
-  const [designation, setDesignation] = useState("Sr. Research Officer");
   const [email, setEmail] = useState("m.sarker@ideshi.org");
   const [password, setPassword] = useState("demo1234");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login and redirect to the dashboard
-    router.push("/buyer/dashboard");
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setError("Invalid work email or password. For demo login, use 'demo1234'.");
+      } else {
+        router.push("/buyer/dashboard");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,30 +75,16 @@ export default function BuyerLogin() {
             Sign in to your institution account
           </h1>
           <p className="mh-muted" style={{ fontSize: "13px", marginBottom: "18px" }}>
-            Demo login &mdash; just click continue.
+            Demo: use **m.sarker@ideshi.org** &amp; **demo1234**
           </p>
+
+          {error && (
+            <div style={{ padding: "10px", background: "#FEE2E2", color: "#991B1B", borderRadius: "8px", fontSize: "13px", marginBottom: "14px" }}>
+              <i className="fa-solid fa-triangle-exclamation"></i> {error}
+            </div>
+          )}
+
           <form onSubmit={handleLogin}>
-            <div className="mh-field">
-              <label>Institution</label>
-              <input
-                value={institution}
-                onChange={(e) => setInstitution(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mh-field">
-              <label>Designation</label>
-              <select
-                value={designation}
-                onChange={(e) => setDesignation(e.target.value)}
-                required
-              >
-                <option>Sr. Research Officer</option>
-                <option>Lab In-charge</option>
-                <option>Procurement Officer</option>
-                <option>Faculty / PI</option>
-              </select>
-            </div>
             <div className="mh-field">
               <label>Work email</label>
               <input
@@ -102,15 +107,16 @@ export default function BuyerLogin() {
               type="submit"
               className="btn btn-amber"
               style={{ width: "100%", justifyContent: "center" }}
+              disabled={loading}
             >
-              Sign in <i className="fa-solid fa-arrow-right"></i>
+              {loading ? "Signing in..." : "Sign in"} <i className="fa-solid fa-arrow-right"></i>
             </button>
           </form>
           <p className="mh-muted" style={{ fontSize: "12px", textAlign: "center", marginTop: "14px" }}>
             New institution?{" "}
-            <a style={{ color: "var(--teal)", fontWeight: 700, cursor: "pointer" }}>
+            <Link href="/register" style={{ color: "var(--teal)", fontWeight: 700, cursor: "pointer" }}>
               Register
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
 // Product spec database for the comparison table
 const specs: Record<string, {
@@ -34,7 +35,10 @@ const translations = {
     "nav.wizard": "Lab Setup Wizard",
     "nav.about": "About",
     "cta.buyer": "Buyer Login",
-    "cta.seller": "Seller Portal"
+    "cta.seller": "Seller Portal",
+    "cta.buyerDashboard": "Buyer Dashboard",
+    "cta.sellerDashboard": "Seller Dashboard",
+    "cta.signOut": "Sign Out"
   },
   bn: {
     "nav.products": "পণ্য",
@@ -44,7 +48,10 @@ const translations = {
     "nav.wizard": "ল্যাব সেটআপ",
     "nav.about": "সম্পর্কে",
     "cta.buyer": "ক্রেতা লগইন",
-    "cta.seller": "বিক্রেতা পোর্টাল"
+    "cta.seller": "বিক্রেতা পোর্টাল",
+    "cta.buyerDashboard": "ক্রেতা ড্যাশবোর্ড",
+    "cta.sellerDashboard": "বিক্রেতা ড্যাশবোর্ড",
+    "cta.signOut": "লগ আউট"
   }
 };
 
@@ -55,6 +62,7 @@ const labSetupTemplates: Record<string, string[]> = {
 };
 
 export default function Home() {
+  const { data: session } = useSession();
   const [lang, setLang] = useState<"en" | "bn">("en");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedToCompare, setSelectedToCompare] = useState<string[]>([]);
@@ -262,14 +270,40 @@ export default function Home() {
                 বাংলা
               </button>
             </div>
-            <Link href="/buyer/login" className="btn btn-outline">
-              <i className="fa-regular fa-user"></i>
-              <span>{t("cta.buyer")}</span>
-            </Link>
-            <Link href="/seller/login" className="btn btn-amber">
-              <i className="fa-solid fa-store"></i>
-              <span>{t("cta.seller")}</span>
-            </Link>
+            {session ? (
+              <>
+                {(session.user as any)?.role === "BUYER" ? (
+                  <Link href="/buyer/dashboard" className="btn btn-outline">
+                    <i className="fa-regular fa-user"></i>
+                    <span>{t("cta.buyerDashboard" as any)}</span>
+                  </Link>
+                ) : (
+                  <Link href="/seller/dashboard" className="btn btn-amber">
+                    <i className="fa-solid fa-store"></i>
+                    <span>{t("cta.sellerDashboard" as any)}</span>
+                  </Link>
+                )}
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="btn btn-ghost"
+                  style={{ color: "var(--text-color)" }}
+                >
+                  <i className="fa-solid fa-right-from-bracket"></i>
+                  <span>{t("cta.signOut" as any)}</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/buyer/login" className="btn btn-outline">
+                  <i className="fa-regular fa-user"></i>
+                  <span>{t("cta.buyer")}</span>
+                </Link>
+                <Link href="/seller/login" className="btn btn-amber">
+                  <i className="fa-solid fa-store"></i>
+                  <span>{t("cta.seller")}</span>
+                </Link>
+              </>
+            )}
             <button
               className="btn btn-ghost hamburger"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -305,22 +339,58 @@ export default function Home() {
             About
           </a>
           <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "10px" }}>
-            <Link
-              href="/buyer/login"
-              className="btn btn-outline"
-              style={{ justifyContent: "center" }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <i className="fa-regular fa-user"></i> {t("cta.buyer")}
-            </Link>
-            <Link
-              href="/seller/login"
-              className="btn btn-amber"
-              style={{ justifyContent: "center" }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <i className="fa-solid fa-store"></i> {t("cta.seller")}
-            </Link>
+            {session ? (
+              <>
+                {(session.user as any)?.role === "BUYER" ? (
+                  <Link
+                    href="/buyer/dashboard"
+                    className="btn btn-outline"
+                    style={{ justifyContent: "center" }}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <i className="fa-regular fa-user"></i> {t("cta.buyerDashboard" as any)}
+                  </Link>
+                ) : (
+                  <Link
+                    href="/seller/dashboard"
+                    className="btn btn-amber"
+                    style={{ justifyContent: "center" }}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <i className="fa-solid fa-store"></i> {t("cta.sellerDashboard" as any)}
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    signOut({ callbackUrl: "/" });
+                  }}
+                  className="btn btn-ghost"
+                  style={{ justifyContent: "center", color: "var(--text-color)" }}
+                >
+                  <i className="fa-solid fa-right-from-bracket"></i> {t("cta.signOut" as any)}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/buyer/login"
+                  className="btn btn-outline"
+                  style={{ justifyContent: "center" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <i className="fa-regular fa-user"></i> {t("cta.buyer")}
+                </Link>
+                <Link
+                  href="/seller/login"
+                  className="btn btn-amber"
+                  style={{ justifyContent: "center" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <i className="fa-solid fa-store"></i> {t("cta.seller")}
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -1,8 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function BuyerDashboard() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/buyer/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div style={{ display: "grid", placeItems: "center", minHeight: "100vh", fontFamily: "var(--font-manrope)", background: "var(--bg)" }}>
+        <div style={{ textAlign: "center" }}>
+          <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: "32px", color: "var(--teal)", marginBottom: "12px" }}></i>
+          <p className="mh-muted" style={{ fontSize: "14px" }}>Loading your buyer dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!session) return null;
+
+  const user = session.user as any;
+
   return (
     <div id="buyerhome" className="view show">
       <div className="pg-head">
@@ -27,16 +54,25 @@ export default function BuyerDashboard() {
               MediHub <b>BD</b>
             </span>
           </a>
-          <a href="/" className="pg-back">
-            <i className="fa-solid fa-arrow-left"></i> Back to marketplace
-          </a>
+          <div style={{ marginLeft: "auto", display: "flex", gap: "20px", alignItems: "center" }}>
+            <a href="/" className="pg-back">
+              <i className="fa-solid fa-arrow-left"></i> Back to marketplace
+            </a>
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="pg-back"
+              style={{ border: "none", background: "none", fontFamily: "inherit", cursor: "pointer" }}
+            >
+              <i className="fa-solid fa-right-from-bracket"></i> Sign out
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="pg">
-        <span className="mh-pill">Buyer Dashboard &middot; ideSHi</span>
-        <h1 style={{ marginTop: "10px" }}>Welcome back, Manos</h1>
-        <p className="mh-muted">Sr. Research Officer &middot; ideSHi</p>
+        <span className="mh-pill">Buyer Dashboard &middot; {user.institutionName || "ideSHi"}</span>
+        <h1 style={{ marginTop: "10px" }}>Welcome back, {user.name?.split(" ")[0] || "User"}</h1>
+        <p className="mh-muted">{user.designation || "Research Officer"} &middot; {user.institutionName || "ideSHi"}</p>
         
         <div className="mh-stats">
           <div className="mh-stat">

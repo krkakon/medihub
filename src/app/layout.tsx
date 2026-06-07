@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Manrope, JetBrains_Mono, Noto_Sans_Bengali } from "next/font/google";
+import { Providers } from "./providers";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -55,7 +56,9 @@ export default function RootLayout({
           referrerPolicy="no-referrer"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

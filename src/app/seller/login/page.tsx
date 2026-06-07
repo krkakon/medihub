@@ -3,16 +3,37 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function SellerLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("sales@genetica.com.bd");
   const [password, setPassword] = useState("demo1234");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login and redirect to the dashboard
-    router.push("/seller/dashboard");
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setError("Invalid company email or password. For demo login, use 'demo1234'.");
+      } else {
+        router.push("/seller/dashboard");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,8 +75,15 @@ export default function SellerLogin() {
             Sign in to manage your products
           </h1>
           <p className="mh-muted" style={{ fontSize: "13px", marginBottom: "18px" }}>
-            Demo login &mdash; just click continue.
+            Demo: use **sales@genetica.com.bd** &amp; **demo1234**
           </p>
+
+          {error && (
+            <div style={{ padding: "10px", background: "#FEE2E2", color: "#991B1B", borderRadius: "8px", fontSize: "13px", marginBottom: "14px" }}>
+              <i className="fa-solid fa-triangle-exclamation"></i> {error}
+            </div>
+          )}
+
           <form onSubmit={handleLogin}>
             <div className="mh-field">
               <label>Company email</label>
@@ -79,15 +107,16 @@ export default function SellerLogin() {
               type="submit"
               className="btn btn-amber"
               style={{ width: "100%", justifyContent: "center" }}
+              disabled={loading}
             >
-              Continue to dashboard <i className="fa-solid fa-arrow-right"></i>
+              {loading ? "Signing in..." : "Continue to dashboard"} <i className="fa-solid fa-arrow-right"></i>
             </button>
           </form>
           <p className="mh-muted" style={{ fontSize: "12px", textAlign: "center", marginTop: "14px" }}>
             New distributor?{" "}
-            <a style={{ color: "var(--teal)", fontWeight: 700, cursor: "pointer" }}>
+            <Link href="/register" style={{ color: "var(--teal)", fontWeight: 700, cursor: "pointer" }}>
               Apply to sell
-            </a>
+            </Link>
           </p>
         </div>
       </div>
